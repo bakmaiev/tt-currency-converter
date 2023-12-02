@@ -3,10 +3,17 @@ import Select from "react-select";
 import { NumericFormat } from "react-number-format";
 import { options } from "../../helpers/constants";
 import { fetchData } from "../../api/fetchCurrencies";
+import {
+  StyledInput,
+  StyledLabel,
+  StyledMain,
+  StyledSelect,
+  StyledWrapper,
+} from "./Converter.styled";
 
 const Converter = () => {
   const [fromAmount, setFromAmount] = useState("");
-  const [toAmount, setToAmount] = useState("");
+  const [toAmount, setToAmount] = useState(0);
   const [fromCurrency, setFromCurrency] = useState(options[0]);
   const [toCurrency, setToCurrency] = useState(options[1]);
   const [exchangeRates, setExchangeRates] = useState(1);
@@ -58,45 +65,45 @@ const Converter = () => {
   }, [exchangeRates, fromAmount, toAmount, lastChanged]);
 
   return (
-    <main>
-      <h1>Currency Converter</h1>
-
-      <div>
-        <label>
-          <NumericFormat
-            name="fromAmount"
-            value={fromAmount}
-            onChange={handleAmountChange}
-            allowNegative={false}
-            decimalScale={2}
-            placeholder="Enter amount"
+    <StyledMain>
+      <StyledWrapper>
+        <div>
+          <StyledLabel>
+            <StyledInput
+              name="fromAmount"
+              value={fromAmount}
+              onChange={handleAmountChange}
+              allowNegative={false}
+              decimalScale={2}
+              placeholder="Enter amount"
+            />
+          </StyledLabel>
+          <StyledSelect
+            name="fromCurrency"
+            options={options}
+            value={fromCurrency}
+            onChange={handleFromCurrencyChange}
           />
-        </label>
-        <Select
-          name="fromCurrency"
-          options={options}
-          value={fromCurrency}
-          onChange={handleFromCurrencyChange}
-        />
-      </div>
-      <div>
-        <label>
-          <NumericFormat
-            name="toAmount"
-            value={toAmount}
-            onChange={handleAmountChange}
-            allowNegative={false}
-            decimalScale={2}
+        </div>
+        <div>
+          <StyledLabel>
+            <StyledInput
+              name="toAmount"
+              value={toAmount}
+              onChange={handleAmountChange}
+              allowNegative={false}
+              decimalScale={2}
+            />
+          </StyledLabel>
+          <StyledSelect
+            name="toCurrency"
+            options={options}
+            value={toCurrency}
+            onChange={handleToCurrencyChange}
           />
-        </label>
-        <Select
-          name="toCurrency"
-          options={options}
-          value={toCurrency}
-          onChange={handleToCurrencyChange}
-        />
-      </div>
-    </main>
+        </div>
+      </StyledWrapper>
+    </StyledMain>
   );
 };
 

@@ -10,10 +10,10 @@ const Header = () => {
     const fetchActualData = async () => {
       try {
         const usdResponce = await fetchData("USD", "UAH");
-        setUsdToUah(usdResponce);
+        setUsdToUah(usdResponce.toFixed(2));
 
         const eurToUah = await fetchData("EUR", "UAH");
-        setEurToUah(eurToUah);
+        setEurToUah(eurToUah.toFixed(2));
       } catch (error) {
         console.log(error.message);
       }
