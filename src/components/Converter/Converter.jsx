@@ -1,39 +1,28 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Select from "react-select";
 import { NumericFormat } from "react-number-format";
-
-const baseURL =
-  "https://v6.exchangerate-api.com/v6/cbf2b2fbd6dba4e42adbd5e7/latest/USD";
-
-const options = [
-  { value: "UAH", label: "UAH" },
-  { value: "USD", label: "USD" },
-  { value: "EUR", label: "EUR" },
-  { value: "PLN", label: "PLN" },
-  { value: "GBP", label: "GBP" },
-];
+import { options } from "../../helpers/constants";
+import { fetchData } from "../../api/fetchCurrencies";
 
 const Converter = () => {
-  const [exchangeRates, setExchangeRates] = useState({
-    UAH: 0,
-    USD: 0,
-    EUR: 0,
-    PLN: 0,
-    GBP: 0,
-  });
-  const [fromAmount, setFromAmount] = useState(1);
-  const [toAmount, setToAmount] = useState(0);
+  const [fromAmount, setFromAmount] = useState("");
+  const [toAmount, setToAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState(options[0]);
   const [toCurrency, setToCurrency] = useState(options[1]);
+  const [exchangeRates, setExchangeRates] = useState(1);
+  const [lastChanged, setLastChanged] = useState(null);
 
   const handleAmountChange = (e) => {
+    const { value } = e.target;
+
     if (e.target.name === "fromAmount") {
-      setFromAmount(e.target.value);
+      setFromAmount(value);
+      setLastChanged("fromAmount");
     }
 
     if (e.target.name === "toAmount") {
-      setToAmount(e.target.value);
+      setToAmount(value);
+      setLastChanged("toAmount");
     }
   };
 
@@ -46,23 +35,27 @@ const Converter = () => {
   };
 
   useEffect(() => {
-    const fetchCurrencies = async () => {
+    const fetchCurrencies = async (base, target) => {
       try {
-        const { data } = await axios.get(baseURL);
-        setExchangeRates({
-          UAH: data.conversion_rates.UAH.toFixed(2),
-          USD: data.conversion_rates.USD.toFixed(2),
-          EUR: data.conversion_rates.EUR.toFixed(2),
-          PLN: data.conversion_rates.PLN.toFixed(2),
-          GBP: data.conversion_rates.GBP.toFixed(2),
-        });
+        const data = await fetchData(base, target);
+        setExchangeRates(data);
       } catch (error) {
         console.log(error.message);
       }
     };
 
-    fetchCurrencies();
-  }, []);
+    fetchCurrencies(fromCurrency.value, toCurrency.value);
+  }, [fromCurrency, toCurrency]);
+
+  useEffect(() => {
+    if (lastChanged === "fromAmount") {
+      setToAmount(fromAmount * exchangeRates);
+    }
+
+    if (lastChanged === "toAmount") {
+      setFromAmount(toAmount / exchangeRates);
+    }
+  }, [exchangeRates, fromAmount, toAmount, lastChanged]);
 
   return (
     <main>
@@ -75,8 +68,8 @@ const Converter = () => {
             value={fromAmount}
             onChange={handleAmountChange}
             allowNegative={false}
-            thousandSeparator=","
             decimalScale={2}
+            placeholder="Enter amount"
           />
         </label>
         <Select
@@ -93,7 +86,6 @@ const Converter = () => {
             value={toAmount}
             onChange={handleAmountChange}
             allowNegative={false}
-            thousandSeparator=","
             decimalScale={2}
           />
         </label>
