@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import { NumericFormat } from "react-number-format";
 import { options } from "../../helpers/constants";
 import { fetchData } from "../../api/fetchCurrencies";
 import {
