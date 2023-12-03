@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/tt-currency-converter/static/css/main.1f63c1c1.css",
+    "main.js": "/tt-currency-converter/static/js/main.d2ccb255.js",
+    "index.html": "/tt-currency-converter/index.html",
+    "main.1f63c1c1.css.map": "/tt-currency-converter/static/css/main.1f63c1c1.css.map",
+    "main.d2ccb255.js.map": "/tt-currency-converter/static/js/main.d2ccb255.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1f63c1c1.css",
+    "static/js/main.d2ccb255.js"
+  ]
+}
