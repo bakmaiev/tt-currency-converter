@@ -53,4 +53,7 @@ export const StyledEqualWrapper = styled.div`
   align-items: center;
   font-size: 36px;
   color: hsl(0, 0%, 80%);
+  @media screen and (max-width: 768px) {
+    transform: rotate(90deg);
+  }
 `;
