@@ -46,3 +46,11 @@ export const StyledInput = styled(NumericFormat)`
     width: 100%;
   }
 `;
+
+export const StyledEqualWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  color: hsl(0, 0%, 80%);
+`;

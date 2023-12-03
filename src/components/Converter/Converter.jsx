@@ -4,6 +4,7 @@ import { NumericFormat } from "react-number-format";
 import { options } from "../../helpers/constants";
 import { fetchData } from "../../api/fetchCurrencies";
 import {
+  StyledEqualWrapper,
   StyledInput,
   StyledLabel,
   StyledMain,
@@ -85,6 +86,7 @@ const Converter = () => {
             onChange={handleFromCurrencyChange}
           />
         </div>
+        <StyledEqualWrapper>&#10153;</StyledEqualWrapper>
         <div>
           <StyledLabel>
             <StyledInput
